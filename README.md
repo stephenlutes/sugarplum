@@ -81,8 +81,21 @@ values in a list would look like:
 
 ### Getting puzzle input
 
+Call get_input passing the year and day.
+
 ```
 from sugarplum import get_input
 
-get_input(2015, 1)
+get_input(2015, 16)
+```
+
+### Getting test data
+
+Call get_test_data passing the year, day, and part number.
+
+```
+from sugarplum import get_test_data
+
+part_1_test_data = get_test_data(2015, 24, 1)
+part_2_test_data = get_test_data(2015, 24, 2)
 ```
