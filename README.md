@@ -7,7 +7,7 @@
 
 Sugarplum is a library for managing inputs (both regular and test inputs) for Advent of
 Code puzzles.
-- 
+
 
 ## Why sugarplum
 
