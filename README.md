@@ -25,7 +25,7 @@ https://www.reddit.com/r/adventofcode/comments/zh2hk0/comment/iznly9w/?context=3
 ## Installation
 
 ```console
-pip install two
+pip install sugarplum
 ```
 
 ## Usage
