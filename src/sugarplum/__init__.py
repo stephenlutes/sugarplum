@@ -1,5 +1,7 @@
+import json
 import os
 from pathlib import Path
+from typing import Any
 
 
 def _file_exists(year: int, day: int, part: int, sub_part: str = "") -> bool:
@@ -22,19 +24,19 @@ def get_input(year: int, day: int) -> str:
 
 def _get_single_test_data(year: int, day: int, part: int) -> tuple[str, str]:
     input_data: str = _read_file(f"{year}/{day:02}/test-{part}.in")
-    result: str = _read_file(f"{year}/{day:02}/test-{part}.out")
+    result: Any = json.loads(_read_file(f"{year}/{day:02}/test-{part}.out"))
 
     return (input_data, result)
 
 
 def _get_multiple_test_data(year, day, part) -> list[tuple[str, str]]:
     sub_part: str = "a"
-    test_data: list[tuple[str, str]] = []
+    test_data: list[tuple[str, Any]] = []
     while _file_exists(year, day, part, sub_part):
         test_data.append(
             (
                 _read_file(f"{year}/{day:02}/test-{part}{sub_part}.in"),
-                _read_file(f"{year}/{day:02}/test-{part}{sub_part}.out"),
+                json.loads(_read_file(f"{year}/{day:02}/test-{part}{sub_part}.out")),
             )
         )
         sub_part = chr(ord(sub_part) + 1)
@@ -44,7 +46,7 @@ def _get_multiple_test_data(year, day, part) -> list[tuple[str, str]]:
 
 def get_test_data(
     year: int, day: int, part: int
-) -> tuple[str, str] | list[tuple[str, str]]:
+) -> tuple[str, Any] | list[tuple[str, Any]]:
     if _file_exists(year, day, part):
         return _get_single_test_data(year, day, part)
     else:
