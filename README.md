@@ -60,9 +60,6 @@ Or
     2015/01/test-2a.out
     2015/01/test-2b.out
 
-All test output files are expected to be JSON encoded data. This allows for checking for
-non-string values in tests.
-
 An example set of input and output files for tests for a challenge that is to add up all
 values in a list would look like:
 
@@ -79,7 +76,7 @@ values in a list would look like:
 **test-1.out**
 
 ```
-"15"
+15
 ```
 
 ### Getting puzzle input

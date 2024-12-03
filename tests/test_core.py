@@ -1,6 +1,5 @@
-import json
 from pathlib import Path
-from typing import Any, Callable
+from typing import Callable
 
 import pytest
 
@@ -23,7 +22,7 @@ def setup_dirs(tmp_path: Path) -> None:
 
 @pytest.fixture
 def create_files(tmp_path: Path) -> Callable:
-    def _create_files(data: list[tuple[str, Any]]) -> None:
+    def _create_files(data: list[tuple[str, str]]) -> None:
         for entry in data:
             with open(tmp_path / f"{YEAR}/{DAY}/{entry[0]}", "w") as f:
                 f.write(entry[1])
@@ -31,7 +30,7 @@ def create_files(tmp_path: Path) -> Callable:
     return _create_files
 
 
-def create_file(path: Path, data: Any) -> None:
+def create_file(path: Path, data: str) -> None:
     with open(path, "w") as f:
         f.write(data)
 
@@ -58,9 +57,7 @@ def test_get_test_data_retrieves_input_and_output_data_for_single_test_case(
 ) -> None:
     expected_input: str = "Christmas"
     expected_output: str = "Tree"
-    create_files(
-        [("test-1.in", expected_input), ("test-1.out", json.dumps(expected_output))]
-    )
+    create_files([("test-1.in", expected_input), ("test-1.out", expected_output)])
 
     assert get_test_data(YEAR, DAY, 1) == (expected_input, expected_output)
 
@@ -75,43 +72,9 @@ def test_get_test_data_retrieves_multiple_input_and_output_data_for_multiple_tes
     create_files(
         [
             ("test-1a.in", expected_input_a),
-            ("test-1a.out", json.dumps(expected_output_a)),
+            ("test-1a.out", expected_output_a),
             ("test-1b.in", expected_input_b),
-            ("test-1b.out", json.dumps(expected_output_b)),
-        ]
-    )
-
-    assert get_test_data(YEAR, DAY, 1) == [
-        (expected_input_a, expected_output_a),
-        (expected_input_b, expected_output_b),
-    ]
-
-
-def test_that_single_test_data_is_loaded_as_json(
-    tmp_path: Path, create_files: Callable
-) -> None:
-    expected_input: str = "North Pole"
-    expected_output: list[int] = [24, 25]
-    create_files(
-        [("test-1.in", expected_input), ("test-1.out", json.dumps(expected_output))]
-    )
-
-    assert get_test_data(YEAR, DAY, 1) == (expected_input, expected_output)
-
-
-def test_that_multiple_test_data_is_loaded_as_json(
-    tmp_path: Path, create_files: Callable
-) -> None:
-    expected_input_a: str = "Santa Claus"
-    expected_output_a: list[str] = ["Dancer", "Prancer"]
-    expected_input_b: str = "Kris Kringle"
-    expected_output_b: dict[str, int] = {"Naughty": 5, "Nice": 42}
-    create_files(
-        [
-            ("test-1a.in", expected_input_a),
-            ("test-1a.out", json.dumps(expected_output_a)),
-            ("test-1b.in", expected_input_b),
-            ("test-1b.out", json.dumps(expected_output_b)),
+            ("test-1b.out", expected_output_b),
         ]
     )
 
