@@ -89,13 +89,33 @@ from sugarplum import get_input
 get_input(2015, 16)
 ```
 
-### Getting test data
+### Getting test input
 
-Call get_test_data passing the year, day, and part number.
+Call get_test_input passing the year, day, and part number.
 
 ```
-from sugarplum import get_test_data
+from sugarplum import get_test_input
 
-part_1_test_data = get_test_data(2015, 24, 1)
-part_2_test_data = get_test_data(2015, 24, 2)
+part_1_test_input = get_test_data(2015, 24, 1)
+part_2_test_input = get_test_data(2015, 24, 2)
+```
+
+### Getting test answers
+
+Call get_test_answer passing the year, day, and part number.
+
+```
+from sugarplum import get_test_answer
+
+answer = get_test_answer(2015, 24, 1)
+```
+
+### Getting parametrized test data
+
+Sometimes there are multiple inputs to test for a part. When this is the case, calling get_parametrized_test_data with the year, day, and part number will return a list of tuples in the format of (input, answer).
+
+```
+from sugarplum import get_parametrized_test_data
+
+data = get_parametrized_test_data(2015, 24, 1)
 ```
