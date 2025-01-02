@@ -1,54 +1,40 @@
 import os
 from pathlib import Path
-from typing import Any
 
 
-def _file_exists(year: int, day: int, part: int, sub_part: str = "") -> bool:
-    file_path: Path = (
-        Path(os.environ["SUGARPLUM_BASE_PATH"])
-        / f"{year}/{day:02}/test-{part}{sub_part}.in"
-    )
-
-    return file_path.exists()
+def _input_file_exists(year: int, day: int, part: int, sub_part: str) -> bool:
+    return Path(
+        os.environ["SUGARPLUM_BASE_PATH"] + f"/{year}/{day:02}/test-{part}{sub_part}.in"
+    ).exists()
 
 
-def _read_file(file_path: str, cast_to: Any = str) -> str:
-    with open(os.environ["SUGARPLUM_BASE_PATH"] + "/" + file_path) as f:
-        return cast_to(f.read())
+def _read_file(year: int, day: int, filename: str) -> str:
+    with open(os.environ["SUGARPLUM_BASE_PATH"] + f"/{year}/{day:02}/{filename}") as f:
+        return f.read()
 
 
 def get_input(year: int, day: int) -> str:
-    return _read_file(f"{year}/{day:02}/data.in")
+    return _read_file(year, day, "data.in")
 
 
-def _get_single_test_data(
-    year: int, day: int, part: int, cast_to: Any
-) -> tuple[str, Any]:
-    input_data: str = _read_file(f"{year}/{day:02}/test-{part}.in")
-    result: Any = _read_file(f"{year}/{day:02}/test-{part}.out")
-
-    return (input_data, cast_to(result))
+def get_test_input(year: int, day: int, part: int) -> str:
+    return _read_file(year, day, f"test-{part}.in")
 
 
-def _get_multiple_test_data(year, day, part, cast_to: Any) -> list[tuple[str, Any]]:
+def get_test_answer(year: int, day: int, part: int) -> int:
+    return int(_read_file(year, day, f"test-{part}.out"))
+
+
+def get_parametrized_test_data(year: int, day: int, part: int) -> list[tuple[str, int]]:
     sub_part: str = "a"
-    test_data: list[tuple[str, str]] = []
-    while _file_exists(year, day, part, sub_part):
-        test_data.append(
+    data: list[tuple[str, int]] = []
+    while _input_file_exists(year, day, part, sub_part):
+        data.append(
             (
-                _read_file(f"{year}/{day:02}/test-{part}{sub_part}.in"),
-                cast_to(_read_file(f"{year}/{day:02}/test-{part}{sub_part}.out")),
+                _read_file(year, day, f"test-{part}{sub_part}.in"),
+                int(_read_file(year, day, f"test-{part}{sub_part}.out")),
             )
         )
         sub_part = chr(ord(sub_part) + 1)
 
-    return test_data
-
-
-def get_test_data(
-    year: int, day: int, part: int, cast_to: Any = str
-) -> tuple[str, str] | list[tuple[str, str]]:
-    if _file_exists(year, day, part):
-        return _get_single_test_data(year, day, part, cast_to)
-    else:
-        return _get_multiple_test_data(year, day, part, cast_to)
+    return data
