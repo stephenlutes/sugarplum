@@ -12,30 +12,32 @@ def _file_exists(year: int, day: int, part: int, sub_part: str = "") -> bool:
     return file_path.exists()
 
 
-def _read_file(file_path: str) -> str:
+def _read_file(file_path: str, cast_to: Any = str) -> str:
     with open(os.environ["SUGARPLUM_BASE_PATH"] + "/" + file_path) as f:
-        return f.read()
+        return cast_to(f.read())
 
 
 def get_input(year: int, day: int) -> str:
     return _read_file(f"{year}/{day:02}/data.in")
 
 
-def _get_single_test_data(year: int, day: int, part: int) -> tuple[str, str]:
+def _get_single_test_data(
+    year: int, day: int, part: int, cast_to: Any
+) -> tuple[str, Any]:
     input_data: str = _read_file(f"{year}/{day:02}/test-{part}.in")
     result: Any = _read_file(f"{year}/{day:02}/test-{part}.out")
 
-    return (input_data, result)
+    return (input_data, cast_to(result))
 
 
-def _get_multiple_test_data(year, day, part) -> list[tuple[str, str]]:
+def _get_multiple_test_data(year, day, part, cast_to: Any) -> list[tuple[str, Any]]:
     sub_part: str = "a"
     test_data: list[tuple[str, str]] = []
     while _file_exists(year, day, part, sub_part):
         test_data.append(
             (
                 _read_file(f"{year}/{day:02}/test-{part}{sub_part}.in"),
-                _read_file(f"{year}/{day:02}/test-{part}{sub_part}.out"),
+                cast_to(_read_file(f"{year}/{day:02}/test-{part}{sub_part}.out")),
             )
         )
         sub_part = chr(ord(sub_part) + 1)
@@ -44,9 +46,9 @@ def _get_multiple_test_data(year, day, part) -> list[tuple[str, str]]:
 
 
 def get_test_data(
-    year: int, day: int, part: int
+    year: int, day: int, part: int, cast_to: Any = str
 ) -> tuple[str, str] | list[tuple[str, str]]:
     if _file_exists(year, day, part):
-        return _get_single_test_data(year, day, part)
+        return _get_single_test_data(year, day, part, cast_to)
     else:
-        return _get_multiple_test_data(year, day, part)
+        return _get_multiple_test_data(year, day, part, cast_to)
