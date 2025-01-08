@@ -5,8 +5,7 @@
 
 -----
 
-Sugarplum is a library for managing inputs (both regular and test inputs) for Advent of
-Code puzzles.
+Sugarplum is a library for managing inputs (both regular and test inputs) for Advent of Code puzzles.
 
 
 ## Why sugarplum
@@ -34,88 +33,3 @@ The environment variable "SUGARPLUM_BASE_PATH" must be set to the base path of t
 directory where the inputs reside. At the moment, sugarplum is opinionated, expecting a
 specific file structure and file names. It expects the directory structure to be one of
 YYYY/DD.
-
-Within each day's directory, for puzzle inputs it expects them to live in a file named 
-data.in. For test inputs, they can either live in test-{part-number}.in with the result
-in test-{part-number}.out or, for parametrized inputs, test-{part-number}{letter}.in for 
-inputs and test-{part-number}{letter}.out for the results.
-
-For example:
-
-    2015/01/data.in
-    2015/01/test-1.in
-    2015/01/test-1.out
-    2015/01/test-2.in
-    2015/01/test-2.out
-
-Or
-
-    2015/01/data.in
-    2015/01/test-1a.in
-    2015/01/test-1a.out
-    2015/01/test-1b.in
-    2015/01/test-1b.out
-    2015/01/test-2a.in
-    2015/01/test-2b.in
-    2015/01/test-2a.out
-    2015/01/test-2b.out
-
-An example set of input and output files for tests for a challenge that is to add up all
-values in a list would look like:
-
-**test-1.in**
-
-```
-1
-2
-3
-4
-5
-```
-
-**test-1.out**
-
-```
-15
-```
-
-### Getting puzzle input
-
-Call get_input passing the year and day.
-
-```
-from sugarplum import get_input
-
-get_input(2015, 16)
-```
-
-### Getting test input
-
-Call get_test_input passing the year, day, and part number.
-
-```
-from sugarplum import get_test_input
-
-part_1_test_input = get_test_data(2015, 24, 1)
-part_2_test_input = get_test_data(2015, 24, 2)
-```
-
-### Getting test answers
-
-Call get_test_answer passing the year, day, and part number.
-
-```
-from sugarplum import get_test_answer
-
-answer = get_test_answer(2015, 24, 1)
-```
-
-### Getting parametrized test data
-
-Sometimes there are multiple inputs to test for a part. When this is the case, calling get_parametrized_test_data with the year, day, and part number will return a list of tuples in the format of (input, answer).
-
-```
-from sugarplum import get_parametrized_test_data
-
-data = get_parametrized_test_data(2015, 24, 1)
-```

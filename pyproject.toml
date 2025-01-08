@@ -24,7 +24,9 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = []
+dependencies = [
+  "pyyaml",
+]
 
 [project.urls]
 Documentation = "https://github.com/stephenlutes/sugarplum#readme"
@@ -64,3 +66,4 @@ exclude_lines = [
 addopts = [
     "--import-mode=importlib",
 ]
+python_classes = "Suite"
