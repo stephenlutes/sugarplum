@@ -26,6 +26,9 @@ def get_test_data(year: int, day: int, tag: str) -> TestData | list[TestData]:
     if type(tagged_data) is list:
         return [TestData(entry["data"], entry["answer"]) for entry in tagged_data]
     elif type(tagged_data["data"]) is list:
-        return TestData("\n".join(tagged_data["data"]), tagged_data["answer"])
+        return TestData(
+            "\n".join([x if x else "" for x in tagged_data["data"]]),
+            tagged_data["answer"],
+        )
     else:
         return TestData(tagged_data["data"], tagged_data["answer"])

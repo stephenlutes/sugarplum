@@ -80,6 +80,28 @@ def test_getting_test_data_that_needs_to_be_joined(create_files: Callable) -> No
     assert get_test_data(YEAR, DAY, tag) == expected
 
 
+def test_getting_multilined_test_data_that_contains_empty_line(
+    create_files: Callable,
+) -> None:
+    data: list[str | None] = ["Santa Claus", None, "Kris Kringle"]
+    expected: TestData = TestData("Santa Claus\n\nKris Kringle", 24)
+    tag: str = "Vixen"
+    compiled: str = dedent(
+        f"""\
+    {tag}:
+        data:
+            - {data[0]}
+            -
+            - {data[2]}
+        answer:
+            24
+    """
+    )
+    create_files([("tests.yaml", compiled)])
+
+    assert get_test_data(YEAR, DAY, tag) == expected
+
+
 def test_getting_parametrized_test_data(create_files: Callable) -> None:
     expected: list[TestData] = [
         TestData("Jingle Bells", 15),
